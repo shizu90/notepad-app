@@ -2,6 +2,7 @@ import BodyTitle from "./BodyTitle";
 
 interface CreateNoteProps{
     children: string
+    onClick?: () => void
 }
 
 export default function CreateNote(props: CreateNoteProps){
@@ -20,7 +21,8 @@ export default function CreateNote(props: CreateNoteProps){
                     cursor-pointer
                     text-white
                     hover:text-fuchsia-200
-                `}>
+                `}
+                onClick={props.onClick}>
                     <p className={`
                         text-9xl
                         text-center
