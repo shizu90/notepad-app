@@ -4,29 +4,36 @@ import CreateNote from '../components/CreateNote'
 import NoteTable from '../components/NoteTable'
 import Note from '../core/Note'
 import NoteForm from '../components/NoteForm'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import NoteCollection from '../server/database/noteCollection'
 
 
 export default function Home() {
+  const repo: NoteCollection = new NoteCollection()
+
   const [show, setShow] = useState<'main' | 'form'>('main')
+  const [notes, setNotes] = useState<Note[]>([])
   const [note, setNote] = useState<Note>(Note.empty())
 
-  const array = [
-    new Note('Note number 1', 'This is the note number 1', 1),
-    new Note('Note number 2', 'This is the note number 2', 2),
-    new Note('Note number 3', 'This is the note number 3', 3),
-    new Note('Note number 4', 'This is the note number 4', 4),
-    new Note('Note number 5', 'This is the note number 5', 5),
-    new Note('Note number 6', 'This is the note number 6', 6),
-  ]
+  useEffect(() => {
+    getAllNotes()
+  }, [])
+
+  function getAllNotes() {
+    repo.getAll().then((notes) => {
+      setNotes(notes)
+      setShow('main')
+    })
+  }
 
   function editNote(note: Note){
     setNote(note)
     setShow('form')
   }
 
-  function deleteNote(note: Note){
-    console.log(note.content)
+  async function deleteNote(note: Note){
+    await repo.delete(note)
+    getAllNotes()
   }
 
   function newNote(){
@@ -34,8 +41,9 @@ export default function Home() {
     setShow('form')
   }
 
-  function saveNote(note: Note){
-    setShow('main')
+  async function saveNote(note: Note){
+    await repo.save(note)
+    getAllNotes()
   }
   //<MainSection>
   //<CreateNote>+</CreateNote>
@@ -50,7 +58,7 @@ export default function Home() {
         {show === 'main' ? (
           <MainSection>
             <CreateNote onClick={newNote}>+</CreateNote>
-            <NoteTable notes={array} selectedNote={editNote} deletedNote={deleteNote}></NoteTable>
+            <NoteTable notes={notes} selectedNote={editNote} deletedNote={deleteNote}></NoteTable>
           </MainSection>
         ) : (
           <NoteForm note={note} cancelled={() => setShow('main')} noteChanged={saveNote}></NoteForm>
