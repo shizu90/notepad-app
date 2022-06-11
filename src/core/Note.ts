@@ -1,9 +1,9 @@
 export default class Note {
-    #id: number
+    #id: string
     #title: string
     #content: string
 
-    constructor(title: string, content: string, id: number = null) {
+    constructor(title: string, content: string, id: string = null) {
         this.#title = title
         this.#content = content
         this.#id = id
