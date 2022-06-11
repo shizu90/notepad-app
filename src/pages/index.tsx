@@ -3,8 +3,13 @@ import Layout from '../components/Layout'
 import CreateNote from '../components/CreateNote'
 import NoteTable from '../components/NoteTable'
 import Note from '../core/Note'
+import NoteForm from '../components/NoteForm'
+import { useState } from 'react'
+
 
 export default function Home() {
+  const [show, setShow] = useState<'main' | 'form'>('main')
+  const [note, setNote] = useState<Note>(Note.empty())
 
   const array = [
     new Note('Note number 1', 'This is the note number 1', 1),
@@ -16,23 +21,40 @@ export default function Home() {
   ]
 
   function editNote(note: Note){
-    console.log(note.title)
+    setNote(note)
+    setShow('form')
   }
 
   function deleteNote(note: Note){
     console.log(note.content)
   }
 
+  function newNote(){
+    setNote(Note.empty())
+    setShow('form')
+  }
+
+  function saveNote(note: Note){
+    setShow('main')
+  }
+  //<MainSection>
+  //<CreateNote>+</CreateNote>
+  //<NoteTable notes={array} selectedNote={editNote} deletedNote={deleteNote}></NoteTable>
+  //</MainSection>
   return (
     <div className={`
       flex min-h-screen justify-center items-center
       bg-gradient-to-r from-blue-500 to-purple-500
     `}>
       <Layout title='Notepadder'>
-        <MainSection>
-          <CreateNote>+</CreateNote>
-          <NoteTable notes={array} selectedNote={editNote} deletedNote={deleteNote}></NoteTable>
-        </MainSection>
+        {show === 'main' ? (
+          <MainSection>
+            <CreateNote onClick={newNote}>+</CreateNote>
+            <NoteTable notes={array} selectedNote={editNote} deletedNote={deleteNote}></NoteTable>
+          </MainSection>
+        ) : (
+          <NoteForm note={note} cancelled={() => setShow('main')} noteChanged={saveNote}></NoteForm>
+        )}
       </Layout>
     </div>
   )
