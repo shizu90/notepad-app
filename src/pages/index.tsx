@@ -30,7 +30,7 @@ export default function Home() {
             <NoteTable notes={notes} selectedNote={editNote} deletedNote={deleteNote}></NoteTable>
           </MainSection>
         ) : (
-          <NoteForm note={note} cancelled={() => showMain} noteChanged={saveNote}></NoteForm>
+          <NoteForm note={note} cancelled={showMain} noteChanged={saveNote}></NoteForm>
         )}
       </Layout>
     </div>
