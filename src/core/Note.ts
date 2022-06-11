@@ -9,6 +9,10 @@ export default class Note {
         this.#id = id
     }
 
+    static empty(){
+        return new Note('', '')
+    }
+
     get id() {
         return this.#id
     }
