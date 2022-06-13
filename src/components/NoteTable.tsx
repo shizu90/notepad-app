@@ -49,7 +49,7 @@ export default function NoteTable(props: NoteTableProps){
             <td className={`
                 pl-2
             `}>
-                {note.id}
+                {note.id.slice(0,5)}
             </td>
             {renderAction(note)}
         </tr>))
