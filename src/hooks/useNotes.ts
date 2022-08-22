@@ -34,7 +34,6 @@ export default function useNotes() {
 
     function newNote(){
         setNote(Note.empty())
-        console.log(process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
         showForm()
     }
 
