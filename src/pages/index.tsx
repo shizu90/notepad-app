@@ -5,7 +5,6 @@ import NoteTable from '../components/NoteTable'
 import NoteForm from '../components/NoteForm'
 import useNotes from '../hooks/useNotes'
 
-
 export default function Home() {
   const {
     editNote, 
@@ -23,6 +22,9 @@ export default function Home() {
       flex min-h-screen justify-center items-center
       bg-gradient-to-r from-blue-500 to-purple-500
     `}>
+      <head>
+        <title>Notepadder</title>
+      </head>
       <Layout title='Notepadder'>
         {mainShowed ? (
           <MainSection>
