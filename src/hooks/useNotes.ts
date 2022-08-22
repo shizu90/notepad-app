@@ -39,6 +39,7 @@ export default function useNotes() {
 
     async function saveNote(note: Note){
         await repo.save(note)
+        showMain()
         getAllNotes()
     }
 
